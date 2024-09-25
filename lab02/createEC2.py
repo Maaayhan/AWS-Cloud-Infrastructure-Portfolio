@@ -1,6 +1,6 @@
 import boto3
 import os
-import shutil
+# import shutil
 
 student_number = "23905652"
 region = "ap-southeast-1"
@@ -31,7 +31,7 @@ private_key = response['KeyMaterial']
 private_key_file = f"{student_number}-key.pem"
 
 # Allow writing to the private key file
-os.chmod(private_key_file, 0o666)
+# os.chmod(private_key_file, 0o666)
 with open(private_key_file, 'w') as key_file:
     key_file.write(private_key)
     
@@ -41,11 +41,11 @@ print(f"Private key saved to {private_key_file}")
 # Set the correct permissions for the private key file
 os.chmod(private_key_file, 0o400)
 
-# Copy the private key file to ~/.ssh directory
-ssh_directory = os.path.expanduser("~/.ssh")
-if not os.path.exists(ssh_directory):
-    os.makedirs(ssh_directory)
-shutil.copy(private_key_file, ssh_directory)
+# # Copy the private key file to ~/.ssh directory
+# ssh_directory = os.path.expanduser("~/.ssh")
+# if not os.path.exists(ssh_directory):
+#     os.makedirs(ssh_directory)
+# shutil.copy(private_key_file, ssh_directory)
 
 print(f"Private key copied to {ssh_directory}")
 
