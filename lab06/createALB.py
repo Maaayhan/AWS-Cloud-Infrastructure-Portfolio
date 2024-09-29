@@ -30,19 +30,19 @@ def create_target_group(vpc_id):
         Protocol='HTTP',
         Port=80,
         VpcId=vpc_id,
+        HealthCheckPort='80',
         HealthCheckProtocol='HTTP',
         HealthCheckPath='/polls/',
+        HealthCheckIntervalSeconds=30,
+        HealthCheckTimeoutSeconds=5,
+        HealthyThresholdCount=5,
+        UnhealthyThresholdCount=2,
+        Matcher={
+            'HttpCode': '200'
+        },
         TargetType='instance'
     )
     return response['TargetGroups'][0]['TargetGroupArn']
-
-def register_targets(target_group_arn, instance_ids):
-    targets = [{'Id': instance_id} for instance_id in instance_ids]
-
-    elbv2.register_targets(
-        TargetGroupArn=target_group_arn,
-        Targets=targets
-    )
 
 def create_listener(load_balancer_arn, target_group_arn):
     response = elbv2.create_listener(
@@ -58,13 +58,21 @@ def create_listener(load_balancer_arn, target_group_arn):
     )
     return response['Listeners'][0]['ListenerArn']
 
+def register_targets(target_group_arn, instance_ids):
+    targets = [{'Id': instance_id} for instance_id in instance_ids]
+
+    elbv2.register_targets(
+        TargetGroupArn=target_group_arn,
+        Targets=targets
+    )
+
 def main():
 
     # Create Application Load Balancer
     vpc_id = 'vpc-0ad7c05df6174aa82'
-    subnet_ids = ['subnet-056a5c6c3bd465883', 'subnet-058477afa01953143']
-    security_group_id = 'sg-0f9e2da7d76e55014'
-    instance_ids = ['i-0d74b68d7cd4677d7', 'i-0ed1c28b10b62e567']
+    subnet_ids = ['subnet-0859ff38bfce967b8', 'subnet-056a5c6c3bd465883']
+    security_group_id = 'sg-05c6c36862582b514'
+    instance_ids = ['i-0114649b83dfc2d8a', 'i-046e7533e262ada51']
     
     print("Creating Application Load Balancer...")
     load_balancer_arn = create_load_balancer(security_group_id, subnet_ids)
