@@ -1,0 +1,10 @@
+# Ignore myenv directory inside lab08
+lab08/myenv/
+
+# Optionally, ignore all of lab08 except myenv
+# lab08/*
+# !lab08/myenv/
+
+# If you want to ignore specific file types in all directories
+# *.log
+# *.tmp
