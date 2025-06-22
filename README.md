@@ -30,7 +30,7 @@ This repository showcases practical implementations of various AWS services and 
 - **Django** - Web application framework
 - **Nginx** - Web server and reverse proxy
 
-## 📁 Project Structure
+## Project Structure
 
 ### 1. AWS Environment Setup (`lab01/`)
 - **Automated AWS CLI configuration**
