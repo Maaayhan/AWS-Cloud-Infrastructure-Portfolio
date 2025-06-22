@@ -1,27 +1,37 @@
-import sagemaker
-import boto3
+# Import necessary libraries
+import sagemaker  # Amazon SageMaker library for machine learning tasks
+import boto3  # AWS SDK for Python, used to interact with various AWS services
 
-import numpy as np  # For matrix operations and numerical processing
-import pandas as pd  # For munging tabular data
-from time import gmtime, strftime
-import os
+# Import data processing libraries
+import numpy as np  # NumPy: For matrix operations and numerical processing
+import pandas as pd  # Pandas: For handling and analyzing structured data
 
-smclient = boto3.Session().client("sagemaker")
-iam = boto3.client('iam')
+# Import time-related functions and OS module
+from time import gmtime, strftime  # For working with timestamps
+import os  # For interacting with the operating system
+
+# Set up AWS service clients
+smclient = boto3.Session().client("sagemaker")  # Create a SageMaker client
+iam = boto3.client('iam')  # Create an IAM (Identity and Access Management) client
+
+# Retrieve the ARN (Amazon Resource Name) for the SageMaker role
 sagemaker_role = iam.get_role(RoleName='SageMakerRole')['Role']['Arn']
-region = 'ap-southeast-1' # use the region you are mapped to 
-student_id = "23905652" # use your student id 
-bucket = '23905652-lab8' # use <studentid-lab8> as your bucket name
-prefix = f"sagemaker/{student_id}-hpo-xgboost-dm" 
-# Create an S3 bucket using the bucket variable above. The bucket creation is done using the region variable above.
-# Create an object into the bucket. The object is a folder and its name is the prefix variable above. 
 
-# create the bucket
-s3 = boto3.resource('s3')
-# s3.create_bucket(Bucket=bucket, CreateBucketConfiguration={'LocationConstraint': region})
+# Set up variables for AWS resources
+region = 'ap-southeast-1'  # Specify the AWS region (Singapore in this case)
+student_id = "23905652"  # Set the student ID
+bucket = '23905652-lab8'  # Define the S3 bucket name
+prefix = f"sagemaker/{student_id}-hpo-xgboost-dm"  # Define the S3 object prefix
 
-# create the folder
-# s3.Object(bucket, prefix + '/').put(Body='')
+# Create an S3 bucket
+s3 = boto3.resource('s3')  # Create an S3 resource
+s3.create_bucket(
+    Bucket=bucket, 
+    CreateBucketConfiguration={'LocationConstraint': region}
+)  # Create the bucket in the specified region
+
+# Create a folder (object) in the S3 bucket
+s3.Object(bucket, prefix + '/').put(Body='')  # Create an empty object (folder) in the bucket
 
 boto3.Session().resource("s3").Bucket(bucket).Object(
     os.path.join(prefix, "train/train.csv")

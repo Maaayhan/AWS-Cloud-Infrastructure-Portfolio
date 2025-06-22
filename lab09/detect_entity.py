@@ -1,22 +1,27 @@
 import boto3
 
 def detect_entities(text):
+    # Create a boto3 client for AWS Comprehend service
     client = boto3.client('comprehend')
-    # First, detect the language
+    
+    # First, detect the dominant language of the text
     response = client.detect_dominant_language(Text=text)
     language_code = response['Languages'][0]['LanguageCode']
     
+    # Use the detected language to perform entity recognition
     response = client.detect_entities(Text=text, LanguageCode=language_code)
     entities = response['Entities']
     print("Detected entities:")
     if not entities:
         print("No entities detected")
         return
+    
+    # Print each detected entity, its type, and confidence score
     for entity in entities:
         confidence = entity['Score'] * 100  # Convert to percentage
         print(f"Entity: {entity['Text']}, Type: {entity['Type']}, with {confidence:.0f}% confidence")
 
-# Test texts (reuse the texts from the previous parts)
+# List of test texts in different languages
 texts = [
     "The French Revolution was a period of social and political upheaval in France and its colonies beginning in 1789 and ending in 1799.",
     "El Quijote es la obra más conocida de Miguel de Cervantes Saavedra. Publicada su primera parte con el título de El ingenioso hidalgo don Quijote de la Mancha a comienzos de 1605, es una de las obras más destacadas de la literatura española y la literatura universal, y una de las más traducidas. En 1615 aparecería la segunda parte del Quijote de Cervantes con el título de El ingenioso caballero don Quijote de la Mancha.",
@@ -24,7 +29,7 @@ texts = [
     "L'amor che move il sole e l'altre stelle."
 ]
 
-# Test the function with each text
+# Test the function with each text in the list
 for text in texts:
     print("\nText:", text)
     detect_entities(text)

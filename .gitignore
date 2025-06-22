@@ -10,3 +10,5 @@ lab09/aws_env/
 # If you want to ignore specific file types in all directories
 # *.log
 # *.tmp
+
+.DS_Store
