@@ -1,14 +1,85 @@
-# Ignore myenv directory inside lab08
+# Virtual environments
 lab08/myenv/
-
 lab09/aws_env/
+venv/
+env/
+aws-env/
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows system files
+*.Zone.Identifier
+__MACOSX/
+
+# SSH keys and certificates
+*.pem
+*.key
+!*.pub
+
+# AWS credentials (just in case)
+.aws/
+aws-credentials
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+*.tmp
+
+# Personal configuration files
+config.ini
+settings.json
+
+# Backup files
+*.bak
+*.backup
+
+# Temporary files
+temp/
+tmp/
+
 
 # Optionally, ignore all of lab08 except myenv
 # lab08/*
 # !lab08/myenv/
-
-# If you want to ignore specific file types in all directories
-# *.log
-# *.tmp
-
-.DS_Store
+lab09/aws_env/
